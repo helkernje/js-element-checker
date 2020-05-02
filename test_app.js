@@ -1,15 +1,6 @@
 function attempt(available, allowed, preferred){
-  var available = available;
-  var allowed = allowed;
-  var preferred = preferred;
   var isAllowed = [];
   var isPreferred = [];
-
-  //filteting function
-  function doFilter(arr){
-    arr = arr.filter(x => x != undefined);
-    return arr;
-  }
 
   //checking if available element is allowed
   for (i in available) {
@@ -24,8 +15,8 @@ function attempt(available, allowed, preferred){
       isAllowed = available;
     }
   }
-  doFilter(isAllowed);
-
+  //filtering isAllowed
+  isAllowed = isAllowed.filter(x => x != undefined);
   //checking if the available allowed elements are preferred
   for (i in isAllowed) {
     if (preferred.includes(isAllowed[i])) {
@@ -48,7 +39,10 @@ function attempt(available, allowed, preferred){
       isPreferred[0] = Math.min(...isAllowed);
     }
   }
-  doFilter(isPreferred);
+  //filtering isPreferred
+  isPreferred = isPreferred.filter(x => x!= undefined);
+  //logging the output(to be changed to a simple return)
   console.log(isPreferred);
 }
-attempt([240, 360, 720], [1080], ['any', 720]);
+//pass 3 arrays to the func
+attempt();
