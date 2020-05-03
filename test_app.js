@@ -2,6 +2,11 @@ function attempt(available, allowed, preferred){
   var isAllowed = [];
   var isPreferred = [];
 
+  //filtering function
+  function doFilter(arr){
+    return arr.filter(x => x != undefined);
+  }
+
   //checking if available element is allowed
   for (i in available) {
     if (allowed.includes(available[i])) {
@@ -15,14 +20,16 @@ function attempt(available, allowed, preferred){
       isAllowed = available;
     }
   }
-  //filtering isAllowed
-  isAllowed = isAllowed.filter(x => x != undefined);
+
+  isAllowed = doFilter(isAllowed);
+
   //checking if the available allowed elements are preferred
   for (i in isAllowed) {
     if (preferred.includes(isAllowed[i])) {
       isPreferred[i] = isAllowed[i];
     }
   }
+  
   //checking for any in preferred
   for(i in preferred){
     if (preferred[i] === 'any') {
@@ -39,8 +46,9 @@ function attempt(available, allowed, preferred){
       isPreferred[0] = Math.min(...isAllowed);
     }
   }
-  //filtering isPreferred
-  isPreferred = isPreferred.filter(x => x!= undefined);
+
+  isPreferred = doFilter(isPreferred);
+
   //logging the output(to be changed to a simple return)
   console.log(isPreferred);
 }
