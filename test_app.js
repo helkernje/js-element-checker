@@ -2,9 +2,8 @@ function attempt(available, allowed, preferred){
   var isAllowed = [];
   var isPreferred = [];
 
-  //filtering function
   function doFilter(arr){
-    return arr.filter(x => x != undefined);
+    return arr.filter(Boolean);
   }
 
   function checker(original, checking){
@@ -17,23 +16,21 @@ function attempt(available, allowed, preferred){
     return final;
   }
 
-  isAllowed = checker(available, allowed);
-  //checking for 'any' in allowed
-  for(i in allowed){
-    if (allowed[i] === 'any') {
-      isAllowed = available;
+  function anyChecker(original, checking){
+    for(i in original){
+      if (original[i] === 'any') {
+        return checking;
+      }
     }
   }
 
+  isAllowed = anyChecker(allowed, available);
+  isAllowed = checker(available, allowed);
   isAllowed = doFilter(isAllowed);
 
+  isPreferred = anyChecker(preferred, isAllowed);
   isPreferred = checker(isAllowed, preferred);
-  //checking for any in preferred
-  for(i in preferred){
-    if (preferred[i] === 'any') {
-      isPreferred = isAllowed;
-    }
-  }
+  isPreferred = doFilter(isPreferred);
 
   //getting the biggest element from isAllowed if none of them are in preferred
   if(isPreferred.length == 0 && isAllowed.length != 0){
@@ -44,11 +41,8 @@ function attempt(available, allowed, preferred){
       isPreferred[0] = Math.min(...isAllowed);
     }
   }
-
-  isPreferred = doFilter(isPreferred);
-
   //logging the output(to be changed to a simple return)
   console.log(isPreferred);
 }
 //pass 3 arrays to the func
-attempt([240, 360, 720], [360, 'any'], [360, 720]);
+attempt();
